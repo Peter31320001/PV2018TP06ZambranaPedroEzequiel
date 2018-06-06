@@ -23,6 +23,11 @@ public class TablaUsuarios {
     /**
      * Creates a new instance of TablaUsuario
      */
+    
+    public TablaUsuarios(ArrayList<Usuario> usuarios) {
+        this.usuarios = usuarios;
+    }
+
     public TablaUsuarios() {
         usuarios = new ArrayList();
         usuarios.add(new Usuario("nuevo", "nuevo"));

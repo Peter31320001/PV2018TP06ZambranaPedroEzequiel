@@ -56,9 +56,32 @@ public class ElectrodomesticoFormBean implements Serializable{
     public void agregarElectrodomestico()throws ParseException{
         //SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
         //Date unafecha = formato.parse(getFecha());
+        if(getStock()>0){
+            setDisponibilidad(true);
+        }
+        else{
+            setDisponibilidad(false);
+        }
         unEletrodomestico = new Eletrodomestico(getCodigo(),getTipo(),getMarca(),getFecha(),getModelo(),getPrecio(),getStock(),getImagen(),disponibilidad);
         lista = getListaElectrodomesticos().agregarElectrodomestico(unEletrodomestico);
     }
+    public void establecerElectrodomestico(Eletrodomestico unElectrodomestico){
+        setUnEletrodomestico(unElectrodomestico);
+    }
+    public void modificarElectrodomesticos(){
+        setLista(electrodomesticos.modificarElectrodomestico(unEletrodomestico));
+    }
+    
+    public void eliminarElectrodomestico(){
+        setLista(electrodomesticos.eliminarElectrodomestico(unEletrodomestico));
+
+    }
+    
+    public void limpiarLista(){
+        lista=new ArrayList();
+        electrodomesticos=new ListaElectrodomestico();
+    }
+    
 
     /**
      * @return the codigo

@@ -23,6 +23,31 @@ public class ListaElectrodomestico implements Serializable{
         getListaE().add(eletrodomestico);
         return getListaE();
     }
+    public ArrayList<Eletrodomestico> modificarElectrodomestico(Eletrodomestico unElectrodomestico){
+        for(Eletrodomestico e:listaE){
+            if(e.getCodigo().equals(unElectrodomestico.getCodigo())){
+                if(unElectrodomestico.getStock()==0){
+                    unElectrodomestico.setDisponibilidad(false);
+                    listaE.set(listaE.indexOf(e), unElectrodomestico);
+                }
+                else{
+                    listaE.set(listaE.indexOf(e), unElectrodomestico);                  
+                }
+                break;
+            }
+        }
+        return listaE;
+    }
+
+    public ArrayList<Eletrodomestico> eliminarElectrodomestico(Eletrodomestico unElectrodomestico){
+        for(Eletrodomestico e:listaE){
+            if(e.getCodigo().equals(unElectrodomestico.getCodigo())){
+                listaE.remove(listaE.indexOf(e));
+                break;
+            }
+        }
+        return listaE;
+    }
 
     public ListaElectrodomestico(ArrayList<Eletrodomestico> listaE) {
         this.listaE = listaE;

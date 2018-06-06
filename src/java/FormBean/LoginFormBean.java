@@ -1,3 +1,5 @@
+package FormBean;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -47,9 +49,9 @@ public class LoginFormBean {
         else{
             FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO,
             "Usuario Valido", "Usuario Valido");
-            FacesContext.getCurrentInstance().addMessage(null, facesMessage);
+            
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("UsuarioValidado", usuario);
-        resultado = " /Electrodomestico";
+        resultado="/Electrodomestico";
         }
         return resultado;
     }

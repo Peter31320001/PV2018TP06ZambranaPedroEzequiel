@@ -27,10 +27,19 @@
                         <f:selectItems value="#{electrodomesticoFormBean.listadoM.listaM}"
                                        var="cadaMarca" itemLabel="#{cadaMarca.nombre}" itemValue="#{cadaMarca}"/>
                     </p:selectOneMenu>
+                    <p:outputLabel id="mod" value="Ingrese modelo:"/>
+                    <p:inputText id="valM"  value="#{electrodomesticoFormBean.modelo}"/>
+                    <p:outputLabel id="pre" value="Ingrese precio:"/>
+                    <p:inputNumber id="valP"  value="#{electrodomesticoFormBean.precio}"/>
+                    <p:outputLabel id="stock" value="Ingrese stock:"/>
+                    <p:inputNumber id="valS" value="#{electrodomesticoFormBean.stock}" />
                     <p:commandButton id="btnAgregar"
                                      value="Agregar"
                                      actionListener="#{electrodomesticoFormBean.agregarElectrodomestico()}"
                                      update=":frmmuestraElectros"/>
+                    <p:commandButton id="btnReiniciar" value="Reiniciar" 
+                                     actionListener="#{electrodomesticoFormBean.limpiarLista()}"
+                                                 update=":frmmuestraElectros"/>
                                  
                 </p:panelGrid>
             </h:form>
@@ -52,9 +61,110 @@
                     <p:column headerText="Marca">
                         <p:outputLabel value="#{cadaElectrodomestico.marca.nombre}"/>
                     </p:column>
+                    <p:column headerText="Modelo">
+                        <p:outputLabel value="#{cadaElectrodomestico.modelo}"/>
+                    </p:column>
+                    <p:column headerText="Precio">
+                        <p:outputLabel value="#{cadaElectrodomestico.precio}"/>
+                    </p:column>
+                    <p:column headerText="Stock">
+                        <p:outputLabel value="#{cadaElectrodomestico.stock}"/>
+                    </p:column>
+                    <p:column headerText="Disponibilidad">
+                        <p:outputLabel value="#{cadaElectrodomestico.disponibilidad}"/>
+                    </p:column>
                 </p:dataTable>
             </h:form>
         </p:panel>
+        <p:dialog id="dlgModificarElectrodomestico"
+                              widgetVar="modificarElec"
+                              header="Modificiacion de Electrodomesticos"
+                              resizable="false"
+                              showEffect="explode"
+                              width="400"
+                              hideEffect="explode" modal="true">
+                        <h:form id="frmModificarElec">
+                            <p:panelGrid id="Mod" columns="2">
+                                <p:outputLabel id="ingC" value="Ingrese Codigo"/>
+                                <p:inputText id="valC" value="#{electrodomesticoFormBean.unEletrodomestico.codigo}"/>
+                                <p:outputLabel id="ingTip" value="Ingrese Tipo"/>
+                                <p:inputText id="valTip" value="#{electrodomesticoFormBean.unEletrodomestico.tipo}"/>
+                                <p:outputLabel id="ingFecha" value="Ingrese Fecha"/>
+                                <p:calendar id="valFecha" value="#{electrodomesticoFormBean.unEletrodomestico.fecha}"/>
+                                <p:outputLabel id="ingMarc" value="Ingrese Marca"/>
+                                <p:selectOneMenu id="menuMarc" value="#{electrodomesticoFormBean.unEletrodomestico.marca.nombre}" converter="omnifaces.SelectItemsConverter">
+                                    <f:selectItem itemLabel="Elija Marca" itemValue="#{null}"/>
+                                    <f:selectItems value="#{electrodomesticoFormBean.listadoM.listaM}"
+                                                   var="cadaMarca" itemLabel="#{cadaMarca.nombre}" itemValue="#{cadaMarca}"/>
+                                </p:selectOneMenu>
+                                <p:outputLabel id="mod" value="Ingrese modelo:"/>
+                                <p:inputText id="valM"  value="#{electrodomesticoFormBean.unEletrodomestico.modelo}"/>
+                                <p:outputLabel id="pre" value="Ingrese precio:"/>
+                                <p:inputNumber id="valP"  value="#{electrodomesticoFormBean.unEletrodomestico.precio}"/>
+                                <p:outputLabel id="stock" value="Ingrese stock:"/>
+                                <p:inputNumber id="valS" value="#{electrodomesticoFormBean.unEletrodomestico.stock}" />
+                                <p:commandButton id="btnModificarElectrodomestico" value="Modificar"
+                                                 oncomplete="PF('modificarElectrodomestico').hide()"
+                                                 update=":frmmuestraElectros"
+                                                 actionListener="#{electrodomesticoFormBean.modificarElectrodomesticos()}">
+                                <p:confirm header="Pedido de confirmacion"
+                                           message="¿Confirma Modificar Electrodomestico?" icon="ui-icon-alert"/>
+                                </p:commandButton>
+                                <p:commandButton id="btnCerrarModificarElectrodomestico" value="Salir"
+                                                 oncomplete="PF('modificarElectrodomestico').hide()"/>
+                            </p:panelGrid>
+                        </h:form>
+                    </p:dialog>
+                    <p:confirmDialog id="confirmarcionDialogoElec"
+                                     global="true" showEffect="fade"
+                                     hideEffect="fade">
+                        <h:form id="frmConfrimacionOperacionElectrodomestico">
+                            <p:commandButton value="Si" type="button"
+                                             styleClass="ui-confirmdialog-yes"
+                                             icon="ui-icon-check"/>
+                            <p:commandButton value="No" type="button"
+                                             styleClass="ui-confirmdialog-no"
+                                             icon="ui-icon-close"
+                                             style="float:right;"/>
+                        </h:form>
+                    </p:confirmDialog>
+                    <p:dialog id="dlgEliminarElectrodomestico"
+                              width="400"
+                              widgetVar="eliminarElectrodomestico"
+                              header="Eliminacion de Electrodomestico"
+                              resizable="false"
+                              showEffect="explode"
+                              hideEffect="explode" modal="true">
+                        <h:form id="frmEliminarElec">
+                            <p:panelGrid id="pnlEliminacion" columns="2">
+                                <p:outputLabel id="ingC" value="Ingrese Codigo"/>
+                                <p:outputLabel id="valC" value="#{electrodomesticoFormBean.unEletrodomestico.codigo}"/>
+                                <p:outputLabel id="ingTip" value="Ingrese Tipo"/>
+                                <p:outputLabel id="valTip" value="#{electrodomesticoFormBean.unEletrodomestico.tipo}"/>
+                                <p:outputLabel id="ingFecha" value="Ingrese Fecha"/>
+                                <p:outputLabel id="valFecha" value="#{electrodomesticoFormBean.unEletrodomestico.fecha}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                </p:outputLabel>
+                                <p:outputLabel id="ingMarc" value="Ingrese Marca"/>
+                                <p:outputLabel id="menuMarc" value="#{electrodomesticoFormBean.unEletrodomestico.marca.nombre}"/>
+                                <p:outputLabel id="mod" value="Ingrese modelo:"/>
+                                <p:outputLabel id="valM"  value="#{electrodomesticoFormBean.unEletrodomestico.modelo}"/>
+                                <p:outputLabel id="pre" value="Ingrese precio:"/>
+                                <p:outputLabel id="valP" value="#{electrodomesticoFormBean.unEletrodomestico.precio}"/>
+                                <p:outputLabel id="stock" value="Ingrese stock:"/>
+                                <p:outputLabel id="valS" value="#{electrodomesticoFormBean.unEletrodomestico.stock}" />
+                                <p:commandButton id="btnEliminarElectrodomestico" value="Eliminar"
+                                                 oncomplete="PF('eliminarElectrodomestico').hide()"
+                                                 update=":frmmuestraElectros"
+                                                 actionListener="#{electrodomesticoFormBean.eliminarElectrodomestico()}">
+                                    <p:confirm header="Pedido de confirmacion"
+                                               message="¿Confirma Eliminar Electrodomestico?" icon="ui-icon-alert"/>
+                                </p:commandButton>
+                                <p:commandButton id="btnCerrarEliminarElectrodomestico" value="Salir"
+                                                 oncomplete="PF('eliminarElectrodomestico').hide()"/>
+                            </p:panelGrid>
+                        </h:form>
+                    </p:dialog>
                 </div>
             </ui:define>
         </ui:composition>
